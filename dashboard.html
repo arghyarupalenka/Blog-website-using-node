@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/dashboard-styles.css">
+    <title>Admin Dashboard - Aaru's Blog</title>
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+    </header>
+
+    <style>
+      /* Style for the container holding the two divs */
+      .container {
+          display: flex; /* Use flexbox layout */
+      }
+
+      /* Style for each individual div */
+      .box {
+          width: 50%; /* Each div takes 50% of the container width */
+          border: 1px solid #ccc; /* Optional: Add a border for visibility */
+          box-sizing: border-box; /* Optional: Include border in width calculation */
+          padding: 10px; /* Optional: Add padding for spacing */
+      }
+      header {
+        background-image: url('image.jpg'); 
+        background-size: cover; 
+        height: 150px; 
+        text-align: center; 
+        color: white; 
+        padding: 20px; 
+      }
+  </style>
+    <nav>
+        <ul>
+            <li><a href="/admin">Dashboard</a></li>
+            <li><a href="/addblog">Add Blog</a></li>
+            <li><a href="/">Website</a></li>
+        </ul>
+    </nav>
+
+    <main>
+      <h2>Dashboard Summary</h2>
+        <section id="summary" class="container">
+            
+            <div class="summary-card box">
+                <h3>Total Blogs</h3>
+                <p id="total">150</p>
+            </div>
+            <div class="summary-card box">
+                <h3>Published Blogs</h3>
+                <p id="total2">120</p>
+            </div>
+        </section>
+
+        <section id="manage-blogs">
+            <h2>Manage Blogs</h2>
+            <table id="blogTable">
+                <tr>
+                  <th>Title</th>
+                  <th>Author</th>
+                  <th>Date</th>
+                  <th>Status</tr>
+                </tr>
+              </table>
+        </section>
+    </main>
+
+    <script>
+        // Fetch data from http://localhost:3000/blogs
+        fetch('http://localhost:3000/blogs')
+          .then(response => response.json())
+          .then(data => {
+            // Update the HTML table with the fetched data
+            updateTable(data);
+          })
+          .catch(error => {
+            console.error('Error fetching data:', error);
+          });
+    
+        function updateTable(blogPosts) {
+          const table = document.getElementById('blogTable');
+    
+          blogPosts.forEach(post => {
+            const row = table.insertRow();
+            const titleCell = row.insertCell(0);
+            const authorCell = row.insertCell(1);
+            const dateCell = row.insertCell(2);
+            const contentCell = row.insertCell(3);
+    
+            titleCell.textContent = post.title;
+            authorCell.textContent = post.author;
+            dateCell.textContent = post.date;
+            contentCell.textContent = "Published";
+          });
+        }
+
+        const apiUrl = "http://localhost:3000/blogs";
+
+        fetch(apiUrl)
+          .then(response => response.json())
+          .then(data => {
+            // Assuming data is the response array
+            const numberOfRecords = data.length;
+            document.getElementById('total').innerHTML =  numberOfRecords;
+            document.getElementById('total2').innerHTML =  numberOfRecords;
+          })
+
+      </script>
+    
+
+
+    <footer>
+        <p>&copy; 2023 Aaru's Blog Admin</p>
+    </footer>
+</body>
+</html>

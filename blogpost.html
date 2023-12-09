@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles2.css">
+    <title>Post Title - Aaru's Blog</title>
+</head>
+<body>
+    <header>
+        <h1>Aaru's Blog</h1>
+        <p style="color: white;">Welcome to a world of inspiration</p>
+    </header>
+
+
+    <style>
+        header {
+            background-image: url('image.jpg'); 
+            background-size: cover; 
+            height: 150px; 
+            text-align: center; 
+            color: white; 
+            padding: 20px; 
+          }
+
+    </style>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <!-- <li><a href="#">Categories</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li> -->
+        </ul>
+    </nav>
+
+    <main>
+        <article>
+            <h2 id="title"></h2>
+            <p class="meta">Published on <span class="date" id="published"></span> by <span class="author" id="author"></span></p>
+            <p id="description"></p>
+        </article>
+    </main>
+
+
+
+    <script>
+
+        const url = new URL(window.location.href);
+
+        const param1Value = url.searchParams.get('id');
+
+        console.log(param1Value);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // Replace 'http://localhost:3000/oneblog?id=65687bb3f6f2420abb25f6e6' with your actual API endpoint
+            const apiUrl = 'http://localhost:3000/oneblog?id=' + param1Value;
+        
+            // Fetch data from the API
+            fetch(apiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Handle the fetched data
+                    console.log(data);
+                    document.getElementById('title').innerHTML = data.title;
+                    document.getElementById('description').innerHTML = data.content;
+                    document.getElementById('published').innerHTML = data.date;
+                    document.getElementById('author').innerHTML = data.author;
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+
+
+
+    </script>
+    <footer>
+        <p>&copy; 2023 Aaru's Blog</p>
+    </footer>
+</body>
+</html>
